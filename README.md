@@ -17,7 +17,11 @@ It is safe by default: AI never holds private keys and outputs proposals for exp
 
 ```bash
 npm install
-cp .env.example .env.local
+cp .env.example .env
+npm run db:up
+npm run db:generate
+npm run db:migrate -- --name init
+npm run db:seed
 npm run dev
 ```
 
@@ -32,10 +36,10 @@ Open `http://localhost:3000`.
 
 ## Environment Variables
 
-Use `.env.local`:
+Use `.env`:
 
 ```bash
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://yieldpilot:yieldpilot@localhost:5432/yieldpilot?schema=public"
 OPENAI_API_KEY=""
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 SUI_NETWORK="testnet"

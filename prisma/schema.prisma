@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Objective {
+  GROWTH
+  DEFENSE
+  BALANCED
+}
+
+enum SnapshotSource {
+  SUI_MAINNET
+  SUI_TESTNET
+}
+
+enum PlanStatus {
+  DRAFT
+  PROPOSED
+  EXECUTED
+}
+
+enum ProposalStatus {
+  PROPOSED
+  EXECUTED
+}
+
+model Policy {
+  id         String    @id @default(cuid())
+  version    Int
+  createdAt  DateTime  @default(now())
+  objective  Objective
+  allocations Json
+  rules      Json
+  guards     Json
+  execution  Json
+  metrics    Json
+  isActive   Boolean   @default(false)
+  plans      Plan[]
+
+  @@unique([version])
+  @@index([isActive])
+}
+
+model Snapshot {
+  id              String         @id @default(cuid())
+  createdAt       DateTime       @default(now())
+  tvlUsdc         Float
+  supply          Float
+  mint24h         Float
+  redeem24h       Float
+  claimableYield  Float
+  instantCapUsed  Float
+  instantCapTotal Float
+  yieldRateTrend  Float?
+  treasuryBalance Float?
+  source          SnapshotSource
+  plans           Plan[]
+
+  @@index([createdAt])
+}
+
+model Plan {
+  id             String      @id @default(cuid())
+  createdAt      DateTime    @default(now())
+  policyId       String
+  snapshotId     String
+  budget         Float
+  bucketAmounts  Json
+  triggeredRules Json
+  explanation    String
+  status         PlanStatus  @default(DRAFT)
+  policy         Policy      @relation(fields: [policyId], references: [id], onDelete: Restrict)
+  snapshot       Snapshot    @relation(fields: [snapshotId], references: [id], onDelete: Restrict)
+  proposals      Proposal[]
+
+  @@index([policyId])
+  @@index([snapshotId])
+  @@index([status])
+}
+
+model Proposal {
+  id        String         @id @default(cuid())
+  createdAt DateTime       @default(now())
+  planId    String
+  actions   Json
+  payload   Json
+  status    ProposalStatus @default(PROPOSED)
+  plan      Plan           @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  @@index([planId])
+  @@index([status])
+}
