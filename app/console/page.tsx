@@ -14,16 +14,10 @@ export default function ConsolePage() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            href="/policy/new"
+            href="/stress-test"
             className="rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
           >
-            Create Policy
-          </Link>
-          <Link
-            href="/plan/new"
-            className="rounded-full border border-cyan-400/60 px-5 py-2 text-sm font-semibold text-cyan-300 transition hover:border-cyan-300 hover:text-cyan-200"
-          >
-            Generate Plan
+            Run Stress Test
           </Link>
         </div>
       </div>

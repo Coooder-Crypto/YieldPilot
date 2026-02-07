@@ -39,11 +39,11 @@ Open `http://localhost:3000`.
 
 ## Demo Story (3 minutes)
 
-1. Show active policy and current treasury state.
-2. Click `Stress Test` and run three shocks.
-3. Show risk result: score, runway drop, key alerts.
-4. Apply recommendation to produce policy vNext.
-5. Generate proposal JSON for governance signing.
+1. Open `/console` and enter stress validation.
+2. Open `/stress-test` and run three shocks.
+3. Inspect `/stress-test/result` for score, runway drop, and key alerts.
+4. Explain recommended allocation adjustment from risk report.
+5. Export proposal in the next phase (governance signing path).
 
 ## Environment Variables
 
@@ -59,4 +59,3 @@ SUI_NETWORK="testnet"
 SUI_RPC_MAINNET_URL="https://fullnode.mainnet.sui.io:443"
 SUI_RPC_TESTNET_URL="https://fullnode.testnet.sui.io:443"
 ```
-
