@@ -12,9 +12,9 @@ export default function Home() {
           StableLayer makes yield programmable. YieldPilot makes it survivable.
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-slate-300">
-          Stress-test treasury strategy under APY drawdown, redemption spikes,
-          and cap pressure. Score risk, generate recommendations, and produce
-          governance-ready proposals.
+          Protocols rarely fail from lack of yield. They fail from fragile
+          allocation. Stress-test strategy under APY drawdown, redemption
+          spikes, and cap pressure before governance executes.
         </p>
         <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
           <Link

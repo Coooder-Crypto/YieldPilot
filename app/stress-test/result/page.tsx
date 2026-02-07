@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { formatAmount, formatUsd } from "@/lib/utils/format";
+import { createRecommendationDraftAction } from "@/app/stress-test/result/actions";
 import { runStressTestReport } from "@/server/services/stress-service";
 
 type PageProps = {
@@ -105,6 +106,20 @@ export default async function StressResultPage({ searchParams }: PageProps) {
             Back to console
           </Link>
         </div>
+
+        <form action={createRecommendationDraftAction} className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <input type="hidden" name="policyId" value={policyId} />
+          <input type="hidden" name="snapshotId" value={snapshotId} />
+          <p className="mb-3 text-sm text-slate-300">
+            Convert this stress result into a governance-ready strategy update draft.
+          </p>
+          <button
+            type="submit"
+            className="rounded-full bg-cyan-400 px-6 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          >
+            Generate vNext Proposal Draft
+          </button>
+        </form>
       </div>
     </main>
   );

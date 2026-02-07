@@ -67,3 +67,21 @@ export async function createVersionedActivePolicy(input: Omit<CreatePolicyInput,
     });
   });
 }
+
+export async function createVersionedPolicy(
+  input: Omit<CreatePolicyInput, "version"> & { isActive?: boolean },
+) {
+  const latest = await prisma.policy.findFirst({
+    orderBy: { version: "desc" },
+    select: { version: true },
+  });
+  const version = (latest?.version ?? 0) + 1;
+
+  return prisma.policy.create({
+    data: {
+      ...input,
+      version,
+      isActive: input.isActive ?? false,
+    },
+  });
+}

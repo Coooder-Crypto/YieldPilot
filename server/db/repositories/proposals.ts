@@ -13,9 +13,30 @@ export async function createProposal(input: CreateProposalInput) {
   return prisma.proposal.create({ data: input });
 }
 
+export async function getProposalById(id: string) {
+  return prisma.proposal.findUnique({
+    where: { id },
+    include: {
+      plan: {
+        include: {
+          policy: true,
+          snapshot: true,
+        },
+      },
+    },
+  });
+}
+
 export async function listProposals() {
   return prisma.proposal.findMany({
     orderBy: { createdAt: "desc" },
-    include: { plan: true },
+    include: {
+      plan: {
+        include: {
+          policy: true,
+          snapshot: true,
+        },
+      },
+    },
   });
 }
