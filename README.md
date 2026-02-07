@@ -40,7 +40,9 @@ Use `.env`:
 
 ```bash
 DATABASE_URL="postgresql://yieldpilot:yieldpilot@localhost:5432/yieldpilot?schema=public"
-OPENAI_API_KEY=""
+SILICONFLOW_API_KEY=""
+SILICONFLOW_BASE_URL="https://api.siliconflow.cn/v1"
+SILICONFLOW_MODEL="Pro/deepseek-ai/DeepSeek-R1"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 SUI_NETWORK="testnet"
 SUI_RPC_MAINNET_URL="https://fullnode.mainnet.sui.io:443"

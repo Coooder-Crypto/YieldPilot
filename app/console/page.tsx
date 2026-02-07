@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ConsolePage() {
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100 sm:px-10">
@@ -10,6 +12,14 @@ export default function ConsolePage() {
           Iteration 0 completed. Next step is implementing policy creation,
           deterministic planning, and proposal history views.
         </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/policy/new"
+            className="rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          >
+            Create Policy
+          </Link>
+        </div>
       </div>
     </main>
   );
