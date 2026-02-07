@@ -19,6 +19,12 @@ export default function ConsolePage() {
           >
             Create Policy
           </Link>
+          <Link
+            href="/plan/new"
+            className="rounded-full border border-cyan-400/60 px-5 py-2 text-sm font-semibold text-cyan-300 transition hover:border-cyan-300 hover:text-cyan-200"
+          >
+            Generate Plan
+          </Link>
         </div>
       </div>
     </main>

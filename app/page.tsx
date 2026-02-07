@@ -9,13 +9,12 @@ export default function Home() {
           YieldPilot
         </p>
         <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
-          Turn StableLayer baseline yield into autonomous, policy-driven
-          growth.
+          StableLayer makes yield programmable. YieldPilot makes it survivable.
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-slate-300">
-          AI treasury autopilot for BrandUSD: versioned policy authoring,
-          deterministic plans, proposal payloads, and auditable execution
-          history.
+          Stress-test treasury strategy under APY drawdown, redemption spikes,
+          and cap pressure. Score risk, generate recommendations, and produce
+          governance-ready proposals.
         </p>
         <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
           <Link
@@ -25,8 +24,7 @@ export default function Home() {
             Start
           </Link>
           <p className="text-sm text-slate-300">
-            Safety promise: AI has no private key access and only outputs
-            proposals for manual approval.
+            Safety promise: AI recommends and explains; humans approve every proposal.
           </p>
         </div>
       </main>

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "YieldPilot",
   description:
-    "Turn StableLayer baseline yield into autonomous, policy-driven growth.",
+    "Stress-test StableLayer treasury strategy and generate survivability proposals.",
 };
 
 export default function RootLayout({

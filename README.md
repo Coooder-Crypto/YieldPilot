@@ -1,17 +1,27 @@
 # YieldPilot
 
-Turn StableLayer baseline yield into autonomous, policy-driven growth.
+StableLayer makes yield programmable. YieldPilot makes it survivable.
 
-YieldPilot transforms baseline yield into versioned treasury policies, deterministic execution plans, and auditable proposal payloads.  
-It gives operators a transparent control loop from policy authoring to dashboard observability.  
-It is safe by default: AI never holds private keys and outputs proposals for explicit approval, not auto-execution.
+YieldPilot is a stress-testing and strategy-validation layer for StableLayer treasury policies.  
+Instead of blindly optimizing yield, it answers one hard question: will this strategy survive under stress?  
+It is safe by default: AI suggests and explains, humans approve proposals.
+
+## Hackathon Focus
+
+One sharp loop only:
+
+1. Load current policy + snapshot
+2. Run stress scenarios (`APY down`, `redeem up`, `cap pressure`)
+3. Produce risk score + alerts + adjustment recommendation
+4. Generate a new policy proposal (manual approval flow)
 
 ## Stack
 
 - Next.js (App Router) + TailwindCSS
 - TypeScript
-- Prisma + SQLite/Postgres
+- Prisma + PostgreSQL (Docker local)
 - Sui RPC (mainnet/testnet)
+- SiliconFlow Chat Completions (`Pro/deepseek-ai/DeepSeek-R1`)
 
 ## Quick Start
 
@@ -27,12 +37,13 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Demo Flow (MVP)
+## Demo Story (3 minutes)
 
-1. Open landing page and enter console.
-2. Create a policy from `/policy/new`.
-3. Generate a plan from `/plan/new`.
-4. Build and inspect proposal JSON from `/plan/[id]` and `/proposals`.
+1. Show active policy and current treasury state.
+2. Click `Stress Test` and run three shocks.
+3. Show risk result: score, runway drop, key alerts.
+4. Apply recommendation to produce policy vNext.
+5. Generate proposal JSON for governance signing.
 
 ## Environment Variables
 
@@ -48,3 +59,4 @@ SUI_NETWORK="testnet"
 SUI_RPC_MAINNET_URL="https://fullnode.mainnet.sui.io:443"
 SUI_RPC_TESTNET_URL="https://fullnode.testnet.sui.io:443"
 ```
+

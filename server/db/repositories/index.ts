@@ -8,4 +8,9 @@ export {
   listPolicies,
 } from "@/server/db/repositories/policies";
 export { createProposal, listProposals } from "@/server/db/repositories/proposals";
-export { createSnapshot, getLatestSnapshot } from "@/server/db/repositories/snapshots";
+export {
+  createSnapshot,
+  getLatestSnapshot,
+  getSnapshotById,
+  listSnapshots,
+} from "@/server/db/repositories/snapshots";
