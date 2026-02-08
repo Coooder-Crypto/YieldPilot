@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: yieldpilot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: yieldpilot
+      POSTGRES_PASSWORD: yieldpilot
+      POSTGRES_DB: yieldpilot
+    ports:
+      - "5432:5432"
+    volumes:
+      - yieldpilot_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yieldpilot -d yieldpilot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  yieldpilot_pgdata:
