@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { ErrorStateCard } from "@/app/components/error-state-card";
+import { FlowStepper } from "@/app/components/flow-stepper";
 import { listPolicies, listSnapshots } from "@/server/db/repositories";
 
 export default async function StressTestPage() {
@@ -8,6 +10,7 @@ export default async function StressTestPage() {
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100 sm:px-10">
       <div className="mx-auto max-w-3xl">
+        <FlowStepper current="stress" />
         <div className="mb-8">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-300">Stress Test</p>
           <h1 className="mt-2 text-3xl font-semibold">Run Strategy Validation</h1>
@@ -16,11 +19,23 @@ export default async function StressTestPage() {
           </p>
         </div>
 
-        <form
-          action="/stress-test/result"
-          method="get"
-          className="space-y-5 rounded-2xl border border-slate-800 bg-slate-900/70 p-6"
-        >
+        {policies.length === 0 || snapshots.length === 0 ? (
+          <ErrorStateCard
+            title="Missing Policy Or Snapshot"
+            message="Stress testing needs both a policy and a snapshot. Reset demo data to recover baseline inputs."
+            actions={[
+              { label: "Back to Console", href: "/console" },
+              { label: "Proposal History", href: "/proposals" },
+            ]}
+          />
+        ) : null}
+
+        {policies.length > 0 && snapshots.length > 0 ? (
+          <form
+            action="/stress-test/result"
+            method="get"
+            className="space-y-5 rounded-2xl border border-slate-800 bg-slate-900/70 p-6"
+          >
           <label className="block">
             <span className="mb-2 block text-sm text-slate-300">Policy</span>
             <select
@@ -63,9 +78,9 @@ export default async function StressTestPage() {
               Back to Console
             </Link>
           </div>
-        </form>
+          </form>
+        ) : null}
       </div>
     </main>
   );
 }
-
