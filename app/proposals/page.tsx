@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BilingualBrief } from "@/app/components/bilingual-brief";
 import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
@@ -26,6 +27,22 @@ export default async function ProposalsPage() {
             Proposal History
           </h1>
         </div>
+        <BilingualBrief
+          className="fade-up delay-2"
+          eyebrow="Auditability"
+          titleEn="History is where strategy credibility is proven."
+          titleZh="历史记录是策略可信度被验证的地方。"
+          enParagraphs={[
+            "A recommendation without traceability is only opinion. This page keeps a durable record of how stress signals translated into governance proposals over time.",
+            "Reviewers can compare proposal density, execution status, and policy version changes to evaluate whether treasury adjustments were measured or reactive.",
+            "In demo context, this section shows that YieldPilot is not a one-off analyzer; it is an operational memory layer for treasury governance.",
+          ]}
+          zhParagraphs={[
+            "没有可追溯性的建议，本质上只是观点。这个页面保存了从压力信号到治理提案的完整历史记录。",
+            "评审者可以通过提案复杂度、执行状态和策略版本变化，判断团队的调整是有节奏的，还是被动反应式的。",
+            "在 Demo 语境下，这里体现 YieldPilot 不是一次性分析工具，而是金库治理的“运营记忆层”。",
+          ]}
+        />
 
         {proposals.length === 0 ? (
           <ErrorStateCard

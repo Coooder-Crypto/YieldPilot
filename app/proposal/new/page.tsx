@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BilingualBrief } from "@/app/components/bilingual-brief";
 import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
@@ -95,6 +96,22 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
         <div className="fade-up delay-1">
           <DemoTip text="Confirm the diff, then save proposal to complete the decision loop." />
         </div>
+        <BilingualBrief
+          className="fade-up delay-2"
+          eyebrow="Governance Handoff"
+          titleEn="From simulation evidence to governable action."
+          titleZh="把模拟证据转化为可治理行动。"
+          enParagraphs={[
+            "This draft is the final checkpoint between analysis and execution. It captures why a change is needed, what allocation moves are proposed, and how risk context supports the update.",
+            "The allocation diff should be readable in seconds by treasury operators and governors. Clear deltas reduce debate noise and keep the decision focused on survivability tradeoffs.",
+            "Once saved, this object becomes an auditable trail: stress trigger, policy transition, and payload data are linked in one proposal record.",
+          ]}
+          zhParagraphs={[
+            "这里是分析到执行之间的最后检查点。草案需要同时回答三件事：为什么要改、改了什么、风险背景如何支撑这次调整。",
+            "allocation diff 必须让治理参与者在短时间内读懂。变化越清晰，讨论越不容易跑偏，焦点才能回到“是否更能生存”这个核心问题。",
+            "保存后，这条记录会形成可审计链路：触发场景、策略版本切换与执行载荷数据在同一提案内闭环关联。",
+          ]}
+        />
         <div className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-300">Proposal Draft</p>
           <h1 className="mt-2 text-2xl font-semibold">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { resetDemoAction } from "@/app/console/actions";
+import { BilingualBrief } from "@/app/components/bilingual-brief";
 import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
@@ -46,6 +47,22 @@ async function ConsolePageContent() {
         <p className="mt-4 max-w-2xl text-slate-300">
           Run stress validation, generate policy update drafts, and track governance-ready proposals.
         </p>
+        <BilingualBrief
+          className="fade-up delay-2"
+          eyebrow="Product Story"
+          titleEn="This dashboard is not for growth vanity, it is for survival decisions."
+          titleZh="这个仪表盘不是增长炫技工具，而是生存决策面板。"
+          enParagraphs={[
+            "StableLayer can continuously produce yield, but yield alone does not make a treasury safe. Unsafe allocation logic can drain incentives, underfund insurance, and compress runway before the team notices the damage.",
+            "YieldPilot starts from one position: every treasury already has a strategy, but very few teams can explain whether that strategy survives under stress. This console exposes the current baseline before any simulation begins.",
+            "From here, the operator should move into Stress Test, trigger scenario shocks, and return with a decision-backed proposal instead of relying on intuition or chat discussions.",
+          ]}
+          zhParagraphs={[
+            "StableLayer 可以持续产生收益，但有收益不代表金库安全。分配逻辑一旦失衡，就会出现激励过度、保险不足、runway 快速压缩，而且团队往往在问题扩大后才发现。",
+            "YieldPilot 的核心立场是：每个金库都有策略，但很少有人能清楚回答这个策略在压力条件下是否还能活下来。当前页面先把基线状态可视化，再进入模拟环节。",
+            "接下来应进入 Stress Test 触发冲击场景，再回到治理提案环节，用可解释的证据驱动决策，而不是依赖经验和情绪判断。",
+          ]}
+        />
 
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <article className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">

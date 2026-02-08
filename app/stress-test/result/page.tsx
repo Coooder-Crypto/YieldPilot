@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BilingualBrief } from "@/app/components/bilingual-brief";
 import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
@@ -53,6 +54,22 @@ export default async function StressResultPage({ searchParams }: PageProps) {
         <div className="fade-up delay-1">
           <DemoTip text="Tell the story in two beats: risk revealed, then recommendation applied." />
         </div>
+        <BilingualBrief
+          className="fade-up delay-2"
+          eyebrow="Result Interpretation"
+          titleEn="A risk score is only useful when it changes what you do next."
+          titleZh="风险评分只有在改变下一步行动时才有价值。"
+          enParagraphs={[
+            "The result is designed for decision cadence. First, read risk intensity and top signals. Second, inspect scenario-level runway changes. Third, convert findings into a concrete strategy draft.",
+            "If score falls sharply under stress, this is not a cosmetic alert. It means current allocation assumptions cannot absorb volatility and may force emergency governance later.",
+            "Use recommendations as structured hypotheses. In the next screen, those hypotheses become an allocation diff and a proposal payload ready for treasury workflow.",
+          ]}
+          zhParagraphs={[
+            "结果页的目标是服务决策节奏：先判断风险强度和关键信号，再看场景下 runway 的变化，最后把结论转成可执行的策略草案。",
+            "如果压力下评分明显下跌，这不是装饰性提示，而是说明当前分配假设无法吸收波动，后续可能被动进入紧急治理。",
+            "建议项应被当作结构化假设。下一步这些假设会落地为 allocation diff 和 proposal payload，直接进入金库治理流程。",
+          ]}
+        />
         <div className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-300">Stress Test Result</p>
           <h1 className="mt-2 text-2xl font-semibold">Policy v{report.policy.version}</h1>

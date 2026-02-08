@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BilingualBrief } from "@/app/components/bilingual-brief";
 import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
@@ -52,6 +53,22 @@ export default async function ProposalDetailPage({ params }: PageProps) {
         <div className="fade-up delay-1">
           <DemoTip text="Open actions first, then payload, to explain governance intent before implementation details." />
         </div>
+        <BilingualBrief
+          className="fade-up delay-2"
+          eyebrow="Proposal Review"
+          titleEn="A proposal is complete only when intent and payload align."
+          titleZh="提案只有在“意图”和“载荷”一致时才算完整。"
+          enParagraphs={[
+            "The Actions block explains governance intent in operational language. The Payload block captures exact machine-readable parameters for downstream execution.",
+            "Reviewing both side by side prevents a common treasury failure mode: policy rationale says one thing while implementation payload does another.",
+            "This detail view is intentionally explicit so signers, delegates, and operators can independently verify that strategy edits remain within agreed risk boundaries.",
+          ]}
+          zhParagraphs={[
+            "Actions 区块表达治理意图，强调运营语义；Payload 区块表达执行参数，强调机器可读性。",
+            "两者并排审阅可以避免常见失误：讨论里说的是一套策略，实际执行载荷却是另一套参数。",
+            "该详情页刻意保持透明，便于签署者、治理代表和运营者独立验证调整是否仍在约定的风险边界内。",
+          ]}
+        />
         <div className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-300">Proposal Detail</p>
           <h1 className="mt-2 text-2xl font-semibold">{proposal.id}</h1>
