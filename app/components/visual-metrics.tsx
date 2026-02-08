@@ -1,4 +1,4 @@
-type Level = "low" | "medium" | "high";
+export type Level = "low" | "medium" | "high";
 
 function cn(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -13,6 +13,12 @@ export function toLevel(value: number, mediumAt: number, highAt: number): Level 
 export function toInverseLevel(value: number, mediumAt: number, lowAt: number): Level {
   if (value <= lowAt) return "high";
   if (value <= mediumAt) return "medium";
+  return "low";
+}
+
+export function fromRiskLevel(level: string): Level {
+  if (level === "HIGH") return "high";
+  if (level === "MEDIUM") return "medium";
   return "low";
 }
 
@@ -97,4 +103,3 @@ export function ArrowTrend({ improving }: { improving: boolean }) {
     </span>
   );
 }
-

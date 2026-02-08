@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { resetDemoAction } from "@/app/console/actions";
+import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
 import { ResetButton } from "@/app/console/reset-button";
@@ -32,7 +33,12 @@ async function ConsolePageContent() {
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100 sm:px-10">
       <div className="mx-auto max-w-6xl space-y-6">
-        <FlowStepper current="console" />
+        <div className="fade-up">
+          <FlowStepper current="console" />
+        </div>
+        <div className="fade-up delay-1">
+          <DemoTip text="Start by reading the dashboard state, then run Stress Test to reveal survivability gaps." />
+        </div>
         <p className="text-sm uppercase tracking-[0.18em] text-cyan-300">
           YieldPilot Console
         </p>
@@ -42,7 +48,7 @@ async function ConsolePageContent() {
         </p>
 
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+          <article className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="flex items-center justify-between">
               <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Claimable Yield</p>
               <DollarIcon />
@@ -55,7 +61,7 @@ async function ConsolePageContent() {
               <SegmentMeter ratio={(latestSnapshot?.claimableYield ?? 0) / 40000} inverse />
             </div>
           </article>
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+          <article className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="flex items-center justify-between">
               <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Cap Utilization</p>
               <GaugeIcon />
@@ -68,7 +74,7 @@ async function ConsolePageContent() {
               <SegmentMeter ratio={capRatio} />
             </div>
           </article>
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+          <article className="interactive-card fade-up delay-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="flex items-center justify-between">
               <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Runway (est.)</p>
               <ShieldIcon />
@@ -81,7 +87,7 @@ async function ConsolePageContent() {
               <SegmentMeter ratio={runwayDays === null ? 1 : Math.min(runwayDays / 90, 1)} inverse />
             </div>
           </article>
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+          <article className="interactive-card fade-up delay-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="flex items-center justify-between">
               <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Total Proposals</p>
               <FileListIcon />
@@ -96,7 +102,7 @@ async function ConsolePageContent() {
           </article>
         </section>
 
-        <section className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+        <section className="interactive-card fade-up delay-3 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
           <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">Active Policy</h2>
           {activePolicy ? (
             <div className="mt-3 grid gap-2 text-sm text-slate-300 sm:grid-cols-3">
@@ -121,13 +127,13 @@ async function ConsolePageContent() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/stress-test"
-            className="rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+            className="btn-feedback rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
           >
             Run Stress Test
           </Link>
           <Link
             href="/proposals"
-            className="rounded-full border border-cyan-400/60 px-5 py-2 text-sm font-semibold text-cyan-300 transition hover:border-cyan-300 hover:text-cyan-200"
+            className="btn-feedback rounded-full border border-cyan-400/60 px-5 py-2 text-sm font-semibold text-cyan-300 transition hover:border-cyan-300 hover:text-cyan-200"
           >
             Proposal History
           </Link>

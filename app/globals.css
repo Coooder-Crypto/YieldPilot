@@ -40,3 +40,58 @@ p,
 li {
   max-width: 72ch;
 }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 420ms ease forwards;
+}
+
+.delay-1 {
+  animation-delay: 60ms;
+}
+
+.delay-2 {
+  animation-delay: 120ms;
+}
+
+.delay-3 {
+  animation-delay: 180ms;
+}
+
+.interactive-card {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 8px 24px rgba(8, 47, 73, 0.24);
+}
+
+.btn-feedback {
+  transition:
+    transform 140ms ease,
+    box-shadow 180ms ease;
+}
+
+.btn-feedback:hover {
+  transform: translateY(-1px);
+}
+
+.btn-feedback:active {
+  transform: translateY(0);
+}

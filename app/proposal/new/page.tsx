@@ -1,9 +1,10 @@
 import Link from "next/link";
 
+import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
 import { AlertIcon, FileListIcon, SparkIcon } from "@/app/components/metric-icons";
-import { ArrowTrend, LevelBadge, RiskLights, SegmentMeter, toLevel } from "@/app/components/visual-metrics";
+import { ArrowTrend, fromRiskLevel, LevelBadge, RiskLights, SegmentMeter, toLevel } from "@/app/components/visual-metrics";
 import { CopyJsonButton } from "@/app/proposal/new/copy-json-button";
 import { saveProposalAction } from "@/app/proposal/new/actions";
 import { stringifyJson } from "@/lib/utils/json";
@@ -35,7 +36,12 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
     return (
       <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100 sm:px-10">
         <div className="mx-auto max-w-5xl space-y-6">
-          <FlowStepper current="draft" />
+          <div className="fade-up">
+            <FlowStepper current="draft" />
+          </div>
+          <div className="fade-up delay-1">
+            <DemoTip text="This screen is your governance handoff: diff + rationale + payload." />
+          </div>
           <ErrorStateCard
             title="Draft Input Missing"
             message="This draft needs source policy, target policy, and snapshot context from stress-test result."
@@ -63,7 +69,7 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
 
   const riskScore = toNumber(params.riskScore, 0);
   const riskLevel = typeof params.riskLevel === "string" ? params.riskLevel : "UNKNOWN";
-  const visualRiskLevel = riskLevel === "HIGH" ? "high" : riskLevel === "MEDIUM" ? "medium" : "low";
+  const visualRiskLevel = fromRiskLevel(riskLevel);
 
   const proposalJson = stringifyJson({
     type: "POLICY_UPDATE_PROPOSAL",
@@ -83,8 +89,13 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100 sm:px-10">
       <div className="mx-auto max-w-5xl space-y-6">
-        <FlowStepper current="draft" />
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+        <div className="fade-up">
+          <FlowStepper current="draft" />
+        </div>
+        <div className="fade-up delay-1">
+          <DemoTip text="Confirm the diff, then save proposal to complete the decision loop." />
+        </div>
+        <div className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-300">Proposal Draft</p>
           <h1 className="mt-2 text-2xl font-semibold">
             Policy v{source.version} {"->"} v{target.version}
@@ -95,7 +106,7 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
         </div>
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <article className="interactive-card fade-up delay-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
             <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">
               <AlertIcon />
               Risk Context
@@ -109,7 +120,7 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
             </div>
           </article>
 
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <article className="interactive-card fade-up delay-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
             <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">
               <SparkIcon />
               Allocation Diff
@@ -134,7 +145,7 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
           </article>
         </section>
 
-        <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+        <article className="interactive-card fade-up delay-3 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">
               <FileListIcon />
@@ -154,19 +165,19 @@ export default async function ProposalNewPage({ searchParams }: PageProps) {
             <input type="hidden" name="riskLevel" value={riskLevel} />
             <button
               type="submit"
-              className="rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+              className="btn-feedback rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
             >
               Save Proposal
             </button>
           </form>
           <Link href="/stress-test" className="text-sm text-cyan-300 hover:text-cyan-200">
-            Back to stress test
+            Back to Stress Test
           </Link>
           <Link href="/proposals" className="text-sm text-cyan-300 hover:text-cyan-200">
-            Proposal history
+            Proposal History
           </Link>
           <Link href="/console" className="text-sm text-cyan-300 hover:text-cyan-200">
-            Back to console
+            Back to Console
           </Link>
         </div>
       </div>

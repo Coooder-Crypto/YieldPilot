@@ -1,21 +1,16 @@
 import Link from "next/link";
 
+import { DemoTip } from "@/app/components/demo-tip";
 import { ErrorStateCard } from "@/app/components/error-state-card";
 import { FlowStepper } from "@/app/components/flow-stepper";
 import { AlertIcon, BoltIcon, DollarIcon, GaugeIcon, SparkIcon } from "@/app/components/metric-icons";
-import { ArrowTrend, LevelBadge, RiskLights, SegmentMeter, toLevel } from "@/app/components/visual-metrics";
+import { ArrowTrend, fromRiskLevel, LevelBadge, RiskLights, SegmentMeter, toLevel } from "@/app/components/visual-metrics";
 import { createRecommendationDraftAction } from "@/app/stress-test/result/actions";
 import { runStressTestReport } from "@/server/services/stress-service";
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
-
-function riskBadgeClass(level: string): string {
-  if (level === "HIGH") return "bg-rose-500/20 text-rose-300 border-rose-500/40";
-  if (level === "MEDIUM") return "bg-amber-500/20 text-amber-300 border-amber-500/40";
-  return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
-}
 
 export default async function StressResultPage({ searchParams }: PageProps) {
   const params = await searchParams;
@@ -28,7 +23,12 @@ export default async function StressResultPage({ searchParams }: PageProps) {
     return (
       <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100 sm:px-10">
         <div className="mx-auto max-w-5xl space-y-6">
-          <FlowStepper current="result" />
+          <div className="fade-up">
+            <FlowStepper current="result" />
+          </div>
+          <div className="fade-up delay-1">
+            <DemoTip text="Pause here: call out the risk level, then trigger the draft generation CTA." />
+          </div>
           <ErrorStateCard
             title="Stress Result Unavailable"
             message="The selected policy/snapshot is invalid or missing. Re-run stress test with valid inputs."
@@ -47,8 +47,13 @@ export default async function StressResultPage({ searchParams }: PageProps) {
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100 sm:px-10">
       <div className="mx-auto max-w-5xl space-y-6">
-        <FlowStepper current="result" />
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+        <div className="fade-up">
+          <FlowStepper current="result" />
+        </div>
+        <div className="fade-up delay-1">
+          <DemoTip text="Tell the story in two beats: risk revealed, then recommendation applied." />
+        </div>
+        <div className="interactive-card fade-up delay-1 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-300">Stress Test Result</p>
           <h1 className="mt-2 text-2xl font-semibold">Policy v{report.policy.version}</h1>
           <div className="mt-4 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
@@ -68,18 +73,14 @@ export default async function StressResultPage({ searchParams }: PageProps) {
         </div>
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <article className="interactive-card fade-up delay-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
             <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">
               <AlertIcon />
               Risk Score
             </h2>
             <div className="flex items-center gap-3">
               <RiskLights level={report.riskReport.level} />
-              <span
-                className={`rounded-full border px-3 py-1 text-xs font-semibold ${riskBadgeClass(report.riskReport.level)}`}
-              >
-                {report.riskReport.level}
-              </span>
+              <LevelBadge level={fromRiskLevel(report.riskReport.level)} />
             </div>
             <div className="mt-3">
               <SegmentMeter ratio={report.riskReport.score / 100} />
@@ -91,7 +92,7 @@ export default async function StressResultPage({ searchParams }: PageProps) {
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <article className="interactive-card fade-up delay-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
             <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">
               <SparkIcon />
               Recommendations
@@ -104,7 +105,7 @@ export default async function StressResultPage({ searchParams }: PageProps) {
           </article>
         </section>
 
-        <article className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+        <article className="interactive-card fade-up delay-3 rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
           <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">
             <BoltIcon />
             Scenario Breakdown
@@ -137,10 +138,10 @@ export default async function StressResultPage({ searchParams }: PageProps) {
 
         <div className="flex gap-4">
           <Link href="/stress-test" className="text-sm text-cyan-300 hover:text-cyan-200">
-            Run another stress test
+            Run Another Stress Test
           </Link>
           <Link href="/console" className="text-sm text-cyan-300 hover:text-cyan-200">
-            Back to console
+            Back to Console
           </Link>
         </div>
 
@@ -152,7 +153,7 @@ export default async function StressResultPage({ searchParams }: PageProps) {
           </p>
           <button
             type="submit"
-            className="rounded-full bg-cyan-400 px-6 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+            className="btn-feedback rounded-full bg-cyan-400 px-6 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
           >
             Generate vNext Proposal Draft
           </button>
