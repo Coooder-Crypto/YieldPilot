@@ -2,69 +2,70 @@
 
 > StableLayer makes yield programmable. YieldPilot makes it survivable.
 
-YieldPilot 是一个面向 StableLayer 经济体的**策略生存验证层**。  
-它不追求“自动赚钱”，而是回答更关键的问题：
+YieldPilot is a **treasury survivability simulator and strategy validation layer** for StableLayer economies.  
+It does not try to "auto-print yield." It answers the harder question:
 
-**这套策略在压力场景下还能活下来吗？**
+**Will this treasury strategy survive under stress?**
 
 ---
 
-## 1. 产品定位
+## 1. Product Positioning
 
-### 1.1 一句话
+### 1.1 One-liner
 
-YieldPilot 是一个 treasury survival simulator and strategy validation layer。
+YieldPilot is a treasury survival simulator and strategy validation layer.
 
-### 1.2 我们解决的问题
+### 1.2 Problem We Solve
 
-很多协议在有收益后，仍然用以下方式做分配决策：
-- Excel
-- 经验判断
-- 社区情绪
-- 临时治理讨论
+Many protocols still make treasury allocation decisions with:
+- spreadsheets,
+- intuition,
+- social sentiment,
+- ad-hoc governance debates.
 
-问题不在于“有没有收益”，而在于：
+The issue is not whether yield exists.
+The issue is:
 
-**收益可编程，但策略不可验证。**
+**Yield is programmable. Strategy is not validated.**
 
-### 1.3 核心叙事（黑客松版本）
+### 1.3 Core Narrative (Hackathon)
 
-- StableLayer 让收益变成可编程现金流。
-- YieldPilot 让这套现金流分配具备生存验证能力。
+- StableLayer turns stablecoin yield into programmable cash flow.
+- YieldPilot makes that cash flow allocation survivable.
 
-评委记忆点：
+Judge memory hook:
 - Every treasury has a strategy. Few know if it survives stress.
 
 ---
 
-## 2. 当前实现范围（真实状态）
+## 2. Scope Implemented Today (Actual State)
 
-### 2.1 已实现
+### 2.1 Implemented
 
-- 4 页闭环 Demo：
+- 4-page demo loop:
   - `/console`
   - `/stress-test`
   - `/stress-test/result`
   - `/proposal/new`
-- Proposal 审计路径：
+- Proposal audit path:
   - `/proposals`
   - `/proposals/[id]`
-- Deterministic Stress Engine（可回放）
-- 风险评分（score + level + signals + recommendations）
-- 基于风险建议生成策略 vNext
-- 生成治理 proposal JSON（Sui 风格 payload）
-- PostgreSQL + Prisma 持久化
-- 支持 `SUI_NETWORK=mainnet|testnet`（用于 payload network 与配置）
+- Deterministic stress engine (replayable)
+- Risk scoring (`score + level + signals + recommendations`)
+- Risk-driven policy vNext generation
+- Governance proposal JSON generation (Sui-style payload)
+- PostgreSQL + Prisma persistence
+- `SUI_NETWORK=mainnet|testnet` support (payload network + config)
 
-### 2.2 暂未实现（刻意收敛）
+### 2.2 Intentionally Not Implemented Yet
 
-- 链上自动执行交易（当前仅生成 proposal payload，不直接广播交易）
-- SiliconFlow 在线推理接入（当前建议逻辑以本地规则引擎为主）
-- Move 合约部署与治理执行器
+- On-chain auto-execution (current mode generates payload only)
+- SiliconFlow online inference integration (current recommendations are rule-engine-based)
+- Move contract deployment and governance executor
 
 ---
 
-## 3. 产品流程
+## 3. Product Flow
 
 ```mermaid
 flowchart LR
@@ -75,19 +76,19 @@ flowchart LR
     E --> F[History\nAudit Trail]
 ```
 
-### 3.1 评审演示节奏（3 分钟）
+### 3.1 3-Minute Demo Script
 
-1. 在 `/console` 展示当前健康状态（可视化指标）。
-2. 在 `/stress-test` 选择 policy + snapshot，运行压力测试。
-3. 在 `/stress-test/result` 展示风险级别、关键信号、场景冲击后变化。
-4. 点击生成 vNext 草案，进入 `/proposal/new` 查看 diff 与 payload。
-5. 保存提案后去 `/proposals` / `/proposals/[id]` 展示可审计闭环。
+1. Open `/console` and show baseline health via visual metrics.
+2. Go to `/stress-test`, choose policy + snapshot, and run simulation.
+3. In `/stress-test/result`, present risk level, top signals, and post-shock changes.
+4. Generate vNext draft and open `/proposal/new` to show allocation diff + payload.
+5. Save and review `/proposals` and `/proposals/[id]` as auditable governance trail.
 
 ---
 
-## 4. 架构设计
+## 4. Architecture
 
-### 4.1 逻辑架构图
+### 4.1 Logical Architecture
 
 ```mermaid
 graph TD
@@ -100,7 +101,7 @@ graph TD
     PB --> SJ[Sui-style JSON Payload]
 ```
 
-### 4.2 决策闭环图（核心价值）
+### 4.2 Decision Loop (Core Value)
 
 ```mermaid
 flowchart TD
@@ -112,17 +113,17 @@ flowchart TD
     P --> H[History & Audit]
 ```
 
-### 4.3 关键模块
+### 4.3 Key Modules
 
-- Stress Simulation
+- Stress simulation
   - `lib/stress/runStressTest.ts`
-- Risk Scoring
+- Risk scoring
   - `lib/risk/computeRiskScore.ts`
-- Recommendation Apply
+- Recommendation application
   - `lib/policy/applyRecommendation.ts`
-- Proposal Build
+- Proposal builder
   - `lib/proposal/buildProposal.ts`
-- Service Orchestration
+- Service orchestration
   - `server/services/stress-service.ts`
   - `server/services/recommendation-service.ts`
   - `server/services/proposal-service.ts`
@@ -132,44 +133,44 @@ flowchart TD
 
 ---
 
-## 5. 目录结构
+## 5. Project Structure
 
 ```text
 .
-├── app/                          # Next.js 页面与组件
-│   ├── console/                  # 基线控制台
-│   ├── stress-test/              # 压测配置 + 结果
-│   ├── proposal/new/             # 提案草案
-│   ├── proposals/                # 提案历史 + 详情
-│   └── components/               # 复用UI（stepper、metrics、bilingual brief等）
-├── lib/                          # 纯逻辑层（stress/risk/policy/proposal/schema）
-├── server/                       # 服务层与仓储层（DB访问、编排）
-├── prisma/                       # schema/migrations/seed
-├── docker-compose.yml            # 本地 PostgreSQL
-├── ITERATIONS.md                 # 黑客松迭代路线
-├── NARRATIVE.md                  # 叙事文档
-└── TODO.md                       # 原始需求与思路
+├── app/                          # Next.js routes and UI components
+│   ├── console/                  # Baseline dashboard
+│   ├── stress-test/              # Stress config + result
+│   ├── proposal/new/             # Proposal draft page
+│   ├── proposals/                # Proposal history + detail
+│   └── components/               # Reusable UI components
+├── lib/                          # Pure logic (stress/risk/policy/proposal/schema)
+├── server/                       # Service and repository layer
+├── prisma/                       # Prisma schema/migrations/seed
+├── docker-compose.yml            # Local PostgreSQL
+├── ITERATIONS.md                 # Hackathon iteration plan
+├── NARRATIVE.md                  # Narrative notes
+└── TODO.md                       # Original product notes
 ```
 
 ---
 
-## 6. 本地启动
+## 6. Local Setup
 
-### 6.1 前置要求
+### 6.1 Prerequisites
 
 - Node.js 20+
 - Docker
-- npm（或 pnpm）
+- npm (or pnpm)
 
-### 6.2 配置环境变量
+### 6.2 Environment Variables
 
-复制模板：
+Copy template:
 
 ```bash
 cp .env.example .env
 ```
 
-默认示例（`.env.example`）：
+Default `.env.example`:
 
 ```bash
 DATABASE_URL="postgresql://yieldpilot:yieldpilot@localhost:5432/yieldpilot?schema=public"
@@ -182,11 +183,11 @@ SUI_RPC_MAINNET_URL="https://fullnode.mainnet.sui.io:443"
 SUI_RPC_TESTNET_URL="https://fullnode.testnet.sui.io:443"
 ```
 
-说明：
-- 当前代码路径不依赖 SiliconFlow key 才能跑通主流程。
-- `SUI_NETWORK` 支持 `mainnet` 与 `testnet`。
+Notes:
+- Core app flow currently runs without SiliconFlow API key.
+- `SUI_NETWORK` supports `mainnet` and `testnet`.
 
-### 6.3 启动数据库 + 初始化
+### 6.3 Start Database + Initialize
 
 ```bash
 npm install
@@ -196,60 +197,60 @@ npm run db:migrate -- --name init
 npm run db:seed
 ```
 
-### 6.4 启动应用
+### 6.4 Run App
 
 ```bash
 npm run dev
 ```
 
-访问：`http://localhost:3000`
+Open: `http://localhost:3000`
 
 ---
 
-## 7. 常用命令
+## 7. Commands
 
 ```bash
-npm run dev          # 开发环境
-npm run build        # 生产构建
-npm run start        # 启动生产服务
+npm run dev          # local development
+npm run build        # production build
+npm run start        # run production server
 npm run lint         # ESLint
-npm run db:up        # 启动 PostgreSQL
-npm run db:down      # 停止 PostgreSQL
-npm run db:generate  # Prisma Client 生成
-npm run db:migrate   # Prisma 迁移
-npm run db:seed      # 填充演示数据
+npm run db:up        # start PostgreSQL container
+npm run db:down      # stop PostgreSQL container
+npm run db:generate  # generate Prisma Client
+npm run db:migrate   # run Prisma migration
+npm run db:seed      # seed demo data
 ```
 
 ---
 
-## 8. 风险评分与场景
+## 8. Stress Scenarios and Risk Output
 
-默认场景定义在 `server/services/stress-service.ts`：
+Default scenarios in `server/services/stress-service.ts`:
 - `APY Down 50%`
 - `Redeem 2x`
 - `Cap Utilization 90%`
 
-评分产出包括：
-- `score`（0-100）
-- `level`（LOW / MEDIUM / HIGH）
+Risk output includes:
+- `score` (0-100)
+- `level` (LOW / MEDIUM / HIGH)
 - `topSignals`
 - `recommendations`
 
-设计目标：
-- 同输入同输出（deterministic）
-- 可解释（signals 可追踪）
-- 可回放（用于 demo 与审计）
+Design goals:
+- Deterministic output (same input -> same output)
+- Explainable signals
+- Replayability for demo and audit
 
 ---
 
-## 9. Sui 相关说明
+## 9. Sui Notes
 
-当前 Sui 相关实现聚焦在**治理提案 payload 建模**：
-- 根据策略 diff 生成 actions
-- 输出 `payload.network` 与命令列表
-- 支持 `mainnet/testnet` 切换
+Current Sui-focused implementation is **governance payload modeling**:
+- Build action list from allocation diff
+- Output `payload.network` and command list
+- Support `mainnet/testnet` switch
 
-示例输出结构（简化）：
+Example output (simplified):
 
 ```json
 {
@@ -269,35 +270,35 @@ npm run db:seed      # 填充演示数据
 
 ---
 
-## 10. 排障
+## 10. Troubleshooting
 
-### 10.1 `DATABASE_URL` 缺失
+### 10.1 Missing `DATABASE_URL`
 
-如果看到 Prisma 报错：
+If Prisma reports:
 - `Environment variable not found: DATABASE_URL`
 
-请确认：
-1. 已执行 `cp .env.example .env`
-2. `.env` 中 `DATABASE_URL` 存在
-3. Postgres 已启动（`npm run db:up`）
+Check:
+1. `cp .env.example .env` has been executed.
+2. `DATABASE_URL` exists in `.env`.
+3. PostgreSQL is running (`npm run db:up`).
 
-### 10.2 Prisma 配置 deprecated 提示
+### 10.2 Prisma Deprecated Config Warning
 
-本项目已使用 `prisma.config.ts`。如果仍看到旧提示，通常是本地缓存或命令环境问题，可重新执行：
+This project already includes `prisma.config.ts`. If warning persists, regenerate client:
 
 ```bash
 npm run db:generate
 ```
 
-### 10.3 Docker 已启动但数据库不可用
+### 10.3 Docker DB Not Reachable
 
-检查容器：
+Check containers:
 
 ```bash
 docker ps
 ```
 
-重启：
+Restart DB:
 
 ```bash
 npm run db:down
@@ -306,23 +307,23 @@ npm run db:up
 
 ---
 
-## 11. 评审话术（可直接使用）
+## 11. Pitch Lines (Ready to Use)
 
 - StableLayer makes yield programmable. YieldPilot makes it survivable.
-- We do not automate treasury blindly. We validate strategy survivability first, then generate auditable governance proposals.
+- We do not automate treasury blindly. We validate survivability first, then generate auditable governance proposals.
 - This is not an AI toy. This is a risk-aware decision loop for programmable stablecoin treasuries.
 
 ---
 
-## 12. Roadmap（黑客松后）
+## 12. Post-Hackathon Roadmap
 
-1. 接入真实 Sui tx 构建与签名流程。
-2. 接入 SiliconFlow 生成更细颗粒度解释文本。
-3. 增加策略回测数据导入与长期表现对比。
-4. 提供权限模型（operator / reviewer / signer）与审计日志。
+1. Add real Sui transaction build/sign/broadcast flow.
+2. Integrate SiliconFlow for richer narrative explanations.
+3. Add historical backtesting imports and trend comparison.
+4. Add role model (`operator / reviewer / signer`) and audit logs.
 
 ---
 
 ## 13. License
 
-暂未声明，默认保留所有权利。若开源可后续补充 MIT/Apache-2.0。
+No license declared yet. Add MIT or Apache-2.0 if open-sourcing.
